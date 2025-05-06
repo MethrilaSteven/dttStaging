@@ -1,10 +1,9 @@
-name: Build APK for dttStaging
+name: Build dttStaging APK
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -14,24 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '11'
           distribution: 'temurin'
-          cache: gradle
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build dttStaging APK
+      - name: Build APK
         run: ./gradlew assembleDttStagingRelease
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: app-dttStaging-release-apk
-          path: app/build/outputs/apk/release/app-DttStagingRelease.apk
+          name: dttStaging-apk
+          path: app/build/outputs/apk/dttStaging/release/app-dttStaging-release.apk
